@@ -16,11 +16,11 @@ namespace HomeworkNumber4
     {
         private SoundPlayer _soundPlayer;
         
-        string proměnn;
-        public Form3(string proměnná)
+        string proměnná;
+        public Form3(string proměnn)
         {
             InitializeComponent();
-            proměnn = proměnná;
+            proměnná = proměnn;
             _soundPlayer = new SoundPlayer(Resources.meme);
             DoubleBuffered = true;
 
@@ -31,25 +31,27 @@ namespace HomeworkNumber4
         {
             KeyPreview = true;
             MessageBox.Show("Pro vypnutí písničky zmáčkni P");
+            MessageBox.Show("Tajné heslo pro tento level je 'svíčka' ");
         }
         Image obrazek;
         int x = 130;
         int y = 150;
-        string hudba = "nehraje1";
-        int b = 5;
+        int xposun = 0;
+        int yposun = 0;
+        string hudba = "nehraje";
         private void Form3_Paint(object sender, PaintEventArgs e)
         {
-            if (proměnn == "Auto")
+            if (proměnná == "Auto")
             {
                 obrazek = Resources.E3;
             }
-            else if (proměnn == "Mašinka")
+            else if (proměnná == "Mašinka")
             {
                 obrazek = Resources.train;
             }
             Graphics k = e.Graphics;
 
-            Rectangle image = new Rectangle(x, y, 50, 50);
+            Rectangle image = new Rectangle(x + 1, y + 1, 49, 49); //obdelnik pod obrazkem
             Rectangle Obstacle = new Rectangle(100, 100, 1, 150);//záčatek startu dolu
             Rectangle Obstacle2 = new Rectangle(100, 100, 100, 1);
             Rectangle Obstacle3 = new Rectangle(100, 250, 100, 1);
@@ -81,7 +83,7 @@ namespace HomeworkNumber4
             k.DrawRectangle(Pens.Blue, Obstacle11);
             k.DrawRectangle(Pens.Blue, Obstacle12);
 
-            k.DrawImage(obrazek, x, y, 51, 51);
+            k.DrawImage(obrazek, x, y, 50, 50);
 
             if (image.IntersectsWith(Obstacle) || image.IntersectsWith(Obstacle2) || image.IntersectsWith(Obstacle3) || image.IntersectsWith(Obstacle4) || image.IntersectsWith(Obstacle7) || image.IntersectsWith(Obstacle8) || image.IntersectsWith(Obstacle9) || image.IntersectsWith(Obstacle10) || image.IntersectsWith(Obstacle11) || image.IntersectsWith(Obstacle12))
             {
@@ -93,57 +95,71 @@ namespace HomeworkNumber4
                 }
                 else
                 {
-                    hudba = "nehraje1";
+                    hudba = "nehraje";
                 }
                 _soundPlayer.Stop();
+                xposun = 0;
+                yposun = 0;
                 MessageBox.Show("Zkus to znovu!");
+
             }
 
             if (image.IntersectsWith(Obstacle5))
             {
                 x = 130;
                 y = 150;
-                hudba = "nehraje1";
+                hudba = "nehraje";
                 _soundPlayer.Stop();
-                MessageBox.Show("Zvládnul jsi to!");
+                xposun = 0;
+                yposun = 0;
+                MessageBox.Show("Zvládnul jsi druhý level");
                 Hide();
-                Form1 firstForm = new Form1();
-                firstForm.ShowDialog();
+                Form4 fourthForm = new Form4(proměnná);
+                fourthForm.ShowDialog();
                 Close();
             }
-            Invalidate();
         }
 
         private void Form3_KeyDown(object sender, KeyEventArgs e)
         {
 
-            if (e.KeyCode == Keys.Right)
-            {
-                x += b;
-            }
-            if (e.KeyCode == Keys.Left)
-            {
-                x -= b;
-            }
-            if (e.KeyCode == Keys.Down)
-            {
-                y += b;
-            }
-            if (e.KeyCode == Keys.Up)
-            {
-                y -= b;
-            }
-            
-            if (hudba == "nehraje1")
-            {
-                _soundPlayer.Play();
-                hudba = "hraje";
-            }
             if (e.KeyCode == Keys.P)
             {
                 _soundPlayer.Stop();
                 hudba = "nebude nikdy hrát";
             }
+            if (e.KeyCode == Keys.Right)
+            {
+                xposun = 2;
+                yposun = 0;
+            }
+            if (e.KeyCode == Keys.Left)
+            {
+                xposun = -2;
+                yposun = 0;
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                xposun = 0;
+                yposun = 2;
+            }
+            if (e.KeyCode == Keys.Up)
+            {
+                xposun = 0;
+                yposun = -2;
+            }
+            if (hudba == "nehraje")
+            {
+                _soundPlayer.Play();
+                hudba = "hraje";
+            }
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            x += xposun;
+            y += yposun;
+            Refresh();
         }
     }
 }

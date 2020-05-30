@@ -20,79 +20,93 @@ namespace HomeworkNumber4
         string proměnná;
 
         private void button1_Click(object sender, EventArgs e)
-        {     
-            if (string.IsNullOrEmpty(comboBox1.Text) || string.IsNullOrEmpty(comboBox2.Text))
+        {
+            if (string.IsNullOrEmpty(comboBox1.Text))
             {
-                MessageBox.Show("Musíte si vybrat auto a obtížnost");
+                MessageBox.Show("Musíte si vybrat auto");
             }
-
-            else
-
+            else if (string.IsNullOrEmpty(textBox1.Text))
             {
-                if (comboBox1.Text == "Logo DPE3" || comboBox1.Text == "Auto" || comboBox2.Text == "Těžká")
+                if (comboBox1.Text == "LOGO DPE3" || comboBox1.Text == "Auto")
                 {
                     MessageBox.Show("TBA");
                 }
+
                 else {
                     Hide();
-                    if (comboBox2.Text == "Lehká")
+                    if (comboBox1.Text == "Auto")
                     {
-                        if (comboBox1.Text == "Auto")
-                        {
-                            proměnná = "Auto";
-                        }
-
-                        if (comboBox1.Text == "Logo DPE3")
-                        {
-                            proměnná = "Logo";
-                        }
-
-                        if (comboBox1.Text == "Mašinka tomáš")
-                        {
-                            proměnná = "Mašinka";
-                        }
-                        Form2 secondForm = new Form2(proměnná);
-                        secondForm.ShowDialog();
+                        proměnná = "Auto";
                     }
-                    if (comboBox2.Text == "Normální")
+
+                    if (comboBox1.Text == "LOGO DPE3")
                     {
+                        proměnná = "Logo";
+                    }
+
+                    if (comboBox1.Text == "Mašinka tomáš")
+                    {
+                        proměnná = "Mašinka";
+                    }
+                    Form2 secondForm = new Form2(proměnná);
+
+
+                    secondForm.ShowDialog();
+                    Close();
+                }
+            }
+            else
+            {
+                if (comboBox1.Text == "LOGO DPE3" || comboBox1.Text == "Auto")
+                {
+                    MessageBox.Show("TBA");
+                }
+
+                else
+                {
+                    
+                    if (textBox1.Text == "svíčka") // level 3
+                    {
+                        Hide();
                         if (comboBox1.Text == "Auto")
                         {
                             proměnná = "Auto";
                         }
-
-                        if (comboBox1.Text == "Logo DPE3")
+                        if (comboBox1.Text == "LOGO DPE3")
                         {
-                            proměnná = "Logo";
+                            proměnná = "LOGO DPE3";
                         }
-
                         if (comboBox1.Text == "Mašinka tomáš")
                         {
                             proměnná = "Mašinka";
                         }
                         Form3 thirdForm = new Form3(proměnná);
                         thirdForm.ShowDialog();
+                        Close();
                     }
-                    if (comboBox2.Text == "Těžká")
+                    if (textBox1.Text == "Civ") // level 4
                     {
+                        Hide();
                         if (comboBox1.Text == "Auto")
                         {
                             proměnná = "Auto";
                         }
-
-                        if (comboBox1.Text == "Logo DPE3")
+                        if (comboBox1.Text == "LOGO DPE3")
                         {
-                            proměnná = "Logo";
+                            proměnná = "LOGO DPE3";
                         }
-
                         if (comboBox1.Text == "Mašinka tomáš")
                         {
                             proměnná = "Mašinka";
                         }
-                        Form4 fourthForm = new Form4(proměnná);
-                        fourthForm.ShowDialog();
+                        Form4 FourthForm = new Form4(proměnná);
+                        FourthForm.ShowDialog();
+                        Close();
                     }
-                    Close();
+                    if (!string.IsNullOrEmpty(textBox1.Text))
+                    {
+                        MessageBox.Show("Špatný kód");
+                    }
                 }
             }
             
@@ -101,7 +115,6 @@ namespace HomeworkNumber4
         private void Form1_Load(object sender, EventArgs e)
         {
             comboBox1.SelectedIndex = 2;
-            comboBox2.SelectedIndex = 0;
         }
     }
 }

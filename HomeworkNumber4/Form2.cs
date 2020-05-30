@@ -31,10 +31,10 @@ namespace HomeworkNumber4
         }
         int x = 130;
         int y = 150;
-
+        int xposun = 0;
+        int yposun = 0;
         string hudba = "nehraje";
 
-        int b = 5;
         private void Form2_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.P)
@@ -44,19 +44,23 @@ namespace HomeworkNumber4
             }
             if (e.KeyCode == Keys.Right)
             {
-                x += b;
+                xposun = 2;
+                yposun = 0;
             }
             if (e.KeyCode == Keys.Left)
             {
-                x -= b;
+                xposun = -2;
+                yposun = 0;
             }
             if (e.KeyCode == Keys.Down)
             {
-                y += b;
+                xposun = 0;
+                yposun = 2;
             }
             if (e.KeyCode == Keys.Up)
             {
-                y -= b;
+                xposun = 0;
+                yposun = -2;
             }
             if (hudba == "nehraje")
             {
@@ -78,7 +82,7 @@ namespace HomeworkNumber4
             }
             Graphics k = e.Graphics;
 
-            Rectangle image = new Rectangle(x, y, 50, 50);
+            Rectangle image = new Rectangle(x+1, y+1, 49, 49); //obdelnik pod obrazkem
             Rectangle Obstacle = new Rectangle(100, 100, 1, 150);//záčatek startu dolu
             Rectangle Obstacle2 = new Rectangle(100, 100, 100, 1);
             Rectangle Obstacle3 = new Rectangle(100, 250, 100, 1);
@@ -89,7 +93,6 @@ namespace HomeworkNumber4
             Rectangle Obstacle8 = new Rectangle(600, 100, 100, 1);
             Rectangle Obstacle9 = new Rectangle(700, 100, 1, 150);
             Rectangle Obstacle10 = new Rectangle(600, 250, 100, 1);
-
 
 
 
@@ -106,11 +109,13 @@ namespace HomeworkNumber4
             k.DrawRectangle(Pens.Blue, Obstacle9);
             k.DrawRectangle(Pens.Blue, Obstacle10);
 
-            k.DrawImage(obrazek, x, y, 51, 51);
+            k.DrawImage(obrazek, x, y, 50, 50);
             if (image.IntersectsWith(Obstacle) || image.IntersectsWith(Obstacle2) || image.IntersectsWith(Obstacle3) || image.IntersectsWith(Obstacle4) || image.IntersectsWith(Obstacle7) || image.IntersectsWith(Obstacle8) || image.IntersectsWith(Obstacle9) || image.IntersectsWith(Obstacle10))
             {
                 x = 130;
                 y = 150;
+                xposun = 0;
+                yposun = 0;
                 if (hudba == "nebude nikdy hrát")
                 {
 
@@ -129,14 +134,23 @@ namespace HomeworkNumber4
                 y = 150;
                 hudba = "nehraje";
                 _soundPlayer.Stop();
-                MessageBox.Show("Zvládnul jsi to!");
+                xposun = 0;
+                yposun = 0;
+                MessageBox.Show("Zvládnul jsi první level");
                 Hide();
-                Form1 firstForm = new Form1();
-                firstForm.ShowDialog();
+                Form3 thirdForm = new Form3(proměnn);
+                thirdForm.ShowDialog();
                 Close();
             }
-            Invalidate();
+            
 
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            x += xposun;
+            y += yposun;
+            Refresh();
         }
     }
 }
